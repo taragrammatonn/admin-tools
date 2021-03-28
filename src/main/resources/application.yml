@@ -1,0 +1,18 @@
+logging:
+  level:
+   org.springframework.data.r2dbc: DEBUG
+
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/timetable
+    username: ${DB_POSTGRES_USER}
+    password: ${DB_POSTGRES_PASSWORD}
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/timetable
+    user: ${DB_POSTGRES_USER}
+    password: ${DB_POSTGRES_PASSWORD}
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400
