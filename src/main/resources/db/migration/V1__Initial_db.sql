@@ -1,6 +1,6 @@
-create schema if not exists parsing;
-create schema if not exists users;
-create schema if not exists history_data;
+create schema parsing;
+create schema users;
+create schema history_data;
 
 create table if not exists parsing.audience
 (
@@ -85,14 +85,10 @@ create table if not exists users."user"
     user_nick_name varchar(255),
     is_defined     boolean,
     user_option_id bigint
-        constraint fkbww14fbccdta6op5weoxth0py
-            references users.user_option
 );
 
 alter table users."user"
     owner to postgres;
-
-
 
 alter table users."user"
     owner to postgres;
@@ -126,8 +122,6 @@ create table if not exists users.user_option
     group_selected    boolean,
     teacher_selected  boolean,
     user_id           bigint
-        constraint fk8usx5lqy3o113k7k4436xberw
-            references users."user"
 );
 
 alter table users.user_option
