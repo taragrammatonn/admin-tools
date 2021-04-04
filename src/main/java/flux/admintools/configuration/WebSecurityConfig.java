@@ -50,10 +50,16 @@ public class WebSecurityConfig {
                 .authenticationManager(authenticationManager)
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
-                .pathMatchers("/", "/login", "/favicon.ico").permitAll()
+                .pathMatchers(
+                        routines()
+                ).permitAll()
                 .pathMatchers("/controller").hasRole("ADMIN")
                 .anyExchange().authenticated()
                 .and()
                 .build();
+    }
+
+    private String[] routines() {
+        return new String[]{"/", "/auth", "/auth/login", "/favicon.ico", "/js/main.css", "/js/main.js"};
     }
 }

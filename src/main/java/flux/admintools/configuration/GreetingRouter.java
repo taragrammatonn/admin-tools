@@ -6,21 +6,30 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.*;
 
+import java.net.URI;
+
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+
 @Configuration
 public class GreetingRouter {
 
     @Bean
     public RouterFunction<ServerResponse> route(GreetingHandler greetingHandler) {
-        RequestPredicate route =
-                RequestPredicates
-                        .GET("/hello")
+        RequestPredicate hello =
+                GET("/hello")
                         .and(RequestPredicates.accept(MediaType.TEXT_PLAIN));
 
         return RouterFunctions
-                .route(route, greetingHandler::hello)
+                .route(hello, greetingHandler::hello)
                 .andRoute(
-                        RequestPredicates.GET("/"),
+                        GET("/"),
                         greetingHandler::index
-                );
+                ).andRoute(
+                        GET("/auth/login"),
+                        greetingHandler::authorization
+                ).andRoute(
+                        GET("/auth"), req ->
+                                ServerResponse.temporaryRedirect(URI.create("/auth/login"))
+                                .build());
     }
 }

@@ -1,7 +1,7 @@
 package flux.admintools.handlers;
 
 import flux.admintools.domen.Message;
-import flux.admintools.domen.users.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -9,10 +9,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class GreetingHandler {
+
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     public Mono<ServerResponse> hello(ServerRequest request) {
         Long start = request.queryParam("start")
@@ -43,10 +47,22 @@ public class GreetingHandler {
     public Mono<ServerResponse> index(ServerRequest serverRequest) {
         String user = serverRequest.queryParam("user")
                 .orElse("Nobody");
+        Map<String, Object> model = new HashMap<>();
+
+        model.put("user", user);
+        model.put("isDevMode", profile.equals("dev"));
 
         return ServerResponse
                 .ok()
-                .render("index", Map.of("user", user));
+                .render("index", model);
+    }
+
+    public Mono<ServerResponse> authorization(ServerRequest serverRequest) {
+        Map<String, String> model = new HashMap<>();
+
+        return ServerResponse
+                .ok()
+                .render("index", model);
     }
 }
 
