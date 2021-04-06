@@ -60,6 +60,6 @@ public class WebSecurityConfig {
     }
 
     private String[] routines() {
-        return new String[]{"/", "/auth", "/auth/login", "/favicon.ico", "/js/main.css", "/js/main.js"};
+        return new String[]{"/", "/_nuxt/**", "/auth", "/auth/login", "/favicon.ico"};
     }
 }

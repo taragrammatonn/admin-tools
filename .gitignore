@@ -36,3 +36,9 @@ out/
 ### VS Code ###
 .vscode/
 /gradle/wrapper/gradle-wrapper.jar
+
+/src/main/resources/static/_nuxt
+/src/main/resources/static/.nojekyll
+/src/main/resources/static/200.html
+/src/main/resources/static/favicon.ico
+/src/main/resources/static/index.html
