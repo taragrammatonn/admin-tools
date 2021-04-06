@@ -1,6 +1,8 @@
 package flux.admintools.handlers;
 
 import flux.admintools.domen.Message;
+import flux.admintools.domen.conf.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -15,8 +17,8 @@ import java.util.Map;
 @Component
 public class GreetingHandler {
 
-    @Value("${spring.profiles.active}")
-    private String profile;
+    @Autowired
+    private Configuration configuration;
 
     public Mono<ServerResponse> hello(ServerRequest request) {
         Long start = request.queryParam("start")
@@ -50,11 +52,11 @@ public class GreetingHandler {
         Map<String, Object> model = new HashMap<>();
 
         model.put("user", user);
-        model.put("isDevMode", profile.equals("dev"));
+        model.put("isDevMode", configuration.getProfile());
 
         return ServerResponse
                 .ok()
-                .render("index", model);
+                .render(configuration.indexRender(), model);
     }
 
     public Mono<ServerResponse> authorization(ServerRequest serverRequest) {
@@ -62,7 +64,7 @@ public class GreetingHandler {
 
         return ServerResponse
                 .ok()
-                .render("index", model);
+                .render(configuration.indexRender(), model);
     }
 }
 
