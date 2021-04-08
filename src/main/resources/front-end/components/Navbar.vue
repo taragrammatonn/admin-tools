@@ -8,11 +8,30 @@
 
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home</a>
+        <li class="nav-item">
+          <nuxt-link exact no-prefetch active-class="active" class="nav-link" to="/">
+            Home
+          </nuxt-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <nuxt-link active-class="active" class="nav-link" to="/about">
+            About
+          </nuxt-link>
+        </li>
+        <li class="nav-item">
+          <nuxt-link active-class="active" class="nav-link" to="/users">
+            Users
+          </nuxt-link>
+        </li>
+        <li class="nav-item" v-if="!hasToken">
+          <nuxt-link active-class="active" class="nav-link" to="/login">
+            Login
+          </nuxt-link>
+        </li>
+        <li class="nav-item" v-else>
+          <a @click.prevent="logout" class="nav-link" href="#">
+            Logout
+          </a>
         </li>
       </ul>
     </div>
@@ -21,7 +40,20 @@
 
 <script>
 export default {
-  name: "Navbar"
+  name: "Navbar",
+
+  computed: {
+    hasToken() {
+      return this.$store.getters.hasToken
+    }
+  },
+
+  methods: {
+    logout() {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

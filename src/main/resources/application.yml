@@ -8,6 +8,9 @@ spring:
     username: ${DB_POSTGRES_USER}
     password: ${DB_POSTGRES_PASSWORD}
 
+  profiles:
+    active: dev
+
   output:
     ansi:
       enabled: always

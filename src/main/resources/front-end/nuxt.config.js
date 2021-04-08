@@ -18,6 +18,11 @@ export default {
     ]
   },
 
+  loading: {
+    color: 'blue',
+    height: '5px'
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -38,13 +43,14 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
 
-  mode: 'spa',
+  ssr: true,
   generate: {
     dir: '../static'
   },

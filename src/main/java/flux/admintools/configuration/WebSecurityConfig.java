@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
@@ -60,6 +62,6 @@ public class WebSecurityConfig {
     }
 
     private String[] routines() {
-        return new String[]{"/", "/_nuxt/**", "/auth", "/auth/login", "/favicon.ico"};
+        return new String[]{"/", "/_nuxt/**", "/auth", "/auth/login", "/favicon.ico", "/__webpack_hmr/**"};
     }
 }

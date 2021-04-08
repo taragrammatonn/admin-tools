@@ -11,6 +11,8 @@
     <link rel="preload" th:href="@{http://localhost:3000/_nuxt/vendors/app.js}" as="script">
     <link rel="preload" th:href="@{http://localhost:3000/_nuxt/app.js}" as="script">
     <link rel="preload" th:href="@{http://localhost:3000/_nuxt/pages/index.js}" as="script">
+    <link rel="preload" th:href="@{http://localhost:3000/_nuxt/pages/about.js
+    }" as="script">
 </head>
 <body>
 <div id="__nuxt">
@@ -119,7 +121,6 @@
 </div>
 
 <script>
-    console.log(window.__NUXT__);
     window.__NUXT__ = {
         config:
             {
@@ -139,6 +140,7 @@
 <script th:src="@{http://localhost:3000/_nuxt/vendors/app.js}"></script>
 <script th:src="@{http://localhost:3000/_nuxt/app.js}"></script>
 <script th:src="@{http://localhost:3000/_nuxt/pages/index.js}"></script>
+<script th:src="@{http://localhost:3000/_nuxt/pages/about.js}"></script>
 
 </body>
 </html>
