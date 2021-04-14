@@ -53,6 +53,6 @@ public class WebSecurityConfig {
     }
 
     private String[] routines() {
-        return new String[]{"/", "/_nuxt/**", "/api/sessionUser", "/api/login", "/favicon.ico", "/__webpack_hmr/**"};
+        return new String[]{"/", "/_nuxt/**", "/api/sessionUser", "/users", "/sessionUser", "/auth/login", "/favicon.ico", "/__webpack_hmr/**"};
     }
 }

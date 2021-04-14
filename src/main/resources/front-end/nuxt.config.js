@@ -49,10 +49,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    // extend(config, ctx) {},
-    // transpile: [
-    //   'mdbvue/lib/components'
-    // ]
   },
 
   ssr: true,
@@ -67,17 +63,9 @@ export default {
   auth: {
     strategies: {
       local: {
-        user: {
-          property: false,
-          autoFetch: false
-        },
-        token: {
-          property: 'token',
-        },
-
         endpoints: {
-          login: { url: '/api/login', method: 'post' },
-          user: { url: '/api/websession', method: 'get'},
+          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
+          user: { url: '/sessionUser', method: 'get', propertyName: 'user'},
           logout: { url: '/api/auth/logout', method: 'post' }
         }
       }

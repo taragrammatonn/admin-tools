@@ -1,4 +1,4 @@
-package flux.admintools.domen.authorization;
+package com.devglan.springwebfluxjwt.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,12 +10,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthRequest {
+public class ApiResponse {
 
-    public AuthRequest(String user) {
-        this.user = user;
-    }
-
-    String user;
-    String password;
+    private int status;
+    private String message;
+    private Object result;
 }
