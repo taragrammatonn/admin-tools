@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
@@ -23,16 +21,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
-
-    @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
         return httpSecurity
-//                .cors()
-//                    .configurationSource(createCorsConfigSource())
-//                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (swe, e) ->
@@ -61,20 +51,6 @@ public class WebSecurityConfig {
                 .and()
                 .build();
     }
-
-//    public CorsConfigurationSource createCorsConfigSource() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.addAllowedOrigin("http://localhost:3000");
-//        config.addAllowedMethod("OPTIONS");
-//        config.addAllowedMethod("GET");
-//        config.addAllowedMethod("PUT");
-//        config.addAllowedMethod("POST");
-//        config.addAllowedMethod("DELETE");
-//
-//        source.registerCorsConfiguration("/**", config);
-//        return source;
-//    }
 
     private String[] routines() {
         return new String[]{"/", "/_nuxt/**", "/api/sessionUser", "/api/login", "/favicon.ico", "/__webpack_hmr/**"};

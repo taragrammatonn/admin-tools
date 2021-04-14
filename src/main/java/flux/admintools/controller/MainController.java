@@ -1,7 +1,9 @@
 package flux.admintools.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import flux.admintools.configuration.JWTUtil;
+import flux.admintools.configuration.PBKDF2Encoder;
+import flux.admintools.domen.authorization.AuthRequest;
+import flux.admintools.domen.authorization.AuthResponse;
 import flux.admintools.domen.users.User;
 import flux.admintools.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -22,37 +21,30 @@ public class MainController {
 
     private final UserService userService;
     private final JWTUtil jwtUtil;
-    private final ObjectMapper mapper;
+    private final PBKDF2Encoder passwordEncoder;
 
     private static final ResponseEntity<Object> FORBIDDEN = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     private static final ResponseEntity<Object> NO_CONTENT = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     @Autowired
-    public MainController(UserService userService, JWTUtil jwtUtil, ObjectMapper mapper) {
+    public MainController(UserService userService, JWTUtil jwtUtil, PBKDF2Encoder passwordEncoder) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
-        this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/login")
-    public Mono<ResponseEntity> login(ServerWebExchange swe, WebSession session) {
-        return swe.getFormData().flatMap(credentials -> {
-                    Mono<UserDetails> authUser = userService.findByUsername(credentials.getFirst("username"));
+    @PostMapping(value = "/login")
+    public Mono<ResponseEntity<?>> login(@RequestBody AuthRequest ar, WebSession session) {
 
-                    return authUser
-                            .cast(User.class)
-                            .map(userDetails -> {
-                                        String token = jwtUtil.generateToken(userDetails);
-                                        session.getAttributes().put("jwt", token);
-                                        return Objects.equals(
-                                                credentials.getFirst("password"),
-                                                userDetails.getPassword()
-                                        ) ? ResponseEntity.ok(token)
-                                                : FORBIDDEN;
-                                    }
-                            ).defaultIfEmpty(FORBIDDEN);
-                }
-        );
+        return userService.findByUsername(ar.getUsername())
+                .cast(User.class)
+                .map(userDetails -> {
+            if (ar.getPassword().equals(userDetails.getPassword())) {
+                return ResponseEntity.ok(new AuthResponse(jwtUtil.generateToken(userDetails)));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        }).defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
 
     @GetMapping("/sessionUser")

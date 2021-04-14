@@ -23,7 +23,7 @@ export const mutations = {
 export const actions = {
   async login({commit, store}, user) {
     await this.$auth.loginWith('local', {
-      data: `username=${user.data.username}&password=${user.data.password}`,
+      data: user.data,
       credential: 'include'
     }).then(result => {
       if (result.status && result.status === 200) {

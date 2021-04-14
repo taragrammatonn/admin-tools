@@ -36,3 +36,10 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 86400
+
+springbootwebfluxjjwt:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256

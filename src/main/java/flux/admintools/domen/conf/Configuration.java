@@ -14,6 +14,15 @@ public class Configuration {
     @Value("${spring.profiles.active}")
     String profile;
 
+    @Value("${springbootwebfluxjjwt.password.encoder.secret}")
+    private String secret;
+
+    @Value("${springbootwebfluxjjwt.password.encoder.iteration}")
+    private Integer iteration;
+
+    @Value("${springbootwebfluxjjwt.password.encoder.keylength}")
+    private Integer keylength;
+
 
     public Boolean isDevMode() {
         return "dev".equals(profile);
