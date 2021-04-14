@@ -1,14 +1,8 @@
 <template>
   <div class="empty-layout">
-    <nuxt/>
+    <nuxt />
   </div>
 </template>
-
-<script>
-export default {
-  name: "empty"
-}
-</script>
 
 <style scoped>
 .empty-layout {
@@ -17,3 +11,4 @@ export default {
   padding-top: 5rem;
 }
 </style>
+

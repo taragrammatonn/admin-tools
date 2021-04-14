@@ -3,6 +3,8 @@ logging:
    org.springframework.data.r2dbc: DEBUG
 
 spring:
+  session:
+    store-type: jdbc
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/timetable
     username: ${DB_POSTGRES_USER}

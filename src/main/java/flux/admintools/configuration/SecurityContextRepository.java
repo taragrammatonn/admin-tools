@@ -1,5 +1,6 @@
 package flux.admintools.configuration;
 
+import flux.admintools.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,9 +14,11 @@ import reactor.core.publisher.Mono;
 public class SecurityContextRepository implements ServerSecurityContextRepository {
 
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
-    public SecurityContextRepository(AuthenticationManager authenticationManager) {
+    public SecurityContextRepository(AuthenticationManager authenticationManager, UserService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
     @Override

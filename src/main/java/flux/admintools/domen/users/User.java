@@ -44,6 +44,13 @@ public class User implements UserDetails {
         this.userNickName = userNickName;
     }
 
+    public String getFullName() {
+        if (getUserNickName() != null) {
+            return (getFName() != null ? getFName() : "") + " \"" + getUserNickName() + "\" " + (getLName() != null ? getLName() : "");
+        }
+        return (!getFName().isEmpty() ? getFName() : "") + " " + (!getLName().isEmpty() ?  getLName() : "");
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

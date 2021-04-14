@@ -1,43 +1,35 @@
 package flux.admintools.controller;
 
-import flux.admintools.configuration.JWTUtil;
 import flux.admintools.domen.users.User;
 import flux.admintools.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
+import java.util.Comparator;
 
 @RestController
 public class UserController {
 
     private final UserService userService;
-    private final JWTUtil jwtUtil;
-    private static final ResponseEntity<Object> UNAUTHORIZED = ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-    public UserController(UserService userService, JWTUtil jwtUtil) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/login")
-    public Mono<ResponseEntity> login(ServerWebExchange swe) {
-        return swe.getFormData().flatMap(credentials ->
-                userService.findByUsername(credentials.getFirst("username"))
-                        .cast(User.class)
-                        .map(userDetails ->
-                                Objects.equals(
-                                        credentials.getFirst("password"),
-                                        userDetails.getPassword()
-                                )
-                                        ? ResponseEntity.ok(jwtUtil.generateToken(userDetails))
-                                        : UNAUTHORIZED
-                )
-                .defaultIfEmpty(UNAUTHORIZED)
-        );
+    @GetMapping("/users")
+    public Flux<User> list(
+            @RequestParam(defaultValue = "0") Long start,
+            @RequestParam(defaultValue = "3") Long count
+    ) {
+
+        return Flux
+                .from(userService.list())
+                .sort(Comparator.comparing(User::getId) );
+    }
+
+    @PostMapping
+    public Mono<User> add(@RequestBody User user) {
+        return userService.addOne(user);
     }
 }

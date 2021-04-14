@@ -61,6 +61,8 @@ public class GreetingHandler {
     public Mono<ServerResponse> authorization(ServerRequest serverRequest) {
         Map<String, String> model = new HashMap<>();
 
+        model.put("token", "testToken");
+
         return ServerResponse
                 .ok()
                 .render(configuration.indexRender(), model);

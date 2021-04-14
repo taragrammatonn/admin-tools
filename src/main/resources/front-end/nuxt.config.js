@@ -43,15 +43,44 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // extend(config, ctx) {},
+    // transpile: [
+    //   'mdbvue/lib/components'
+    // ]
   },
 
   ssr: true,
   generate: {
     dir: '../static'
   },
+
+  axios: {
+    baseURL: 'http://localhost:8080'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        user: {
+          property: false,
+          autoFetch: false
+        },
+        token: {
+          property: 'token',
+        },
+
+        endpoints: {
+          login: { url: '/api/login', method: 'post' },
+          user: { url: '/api/websession', method: 'get'},
+          logout: { url: '/api/auth/logout', method: 'post' }
+        }
+      }
+    }
+  }
 }

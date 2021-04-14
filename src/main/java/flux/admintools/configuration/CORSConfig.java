@@ -22,9 +22,9 @@ public class CORSConfig {
     private static final String MAX_AGE = "3600";
 
     @Bean
-    WebFilter corsFilter() {
+    public WebFilter corsFilter() {
         return (ServerWebExchange ctx, WebFilterChain chain) -> {
-            final ServerHttpRequest request = ctx.getRequest();
+            ServerHttpRequest request = ctx.getRequest();
             if (CorsUtils.isCorsRequest(request)) {
                 ServerHttpResponse response = ctx.getResponse();
                 HttpHeaders headers = response.getHeaders();
@@ -40,4 +40,5 @@ public class CORSConfig {
             return chain.filter(ctx);
         };
     }
+
 }

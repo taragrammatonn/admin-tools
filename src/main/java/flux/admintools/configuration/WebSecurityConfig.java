@@ -10,8 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
@@ -32,6 +30,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
         return httpSecurity
+//                .cors()
+//                    .configurationSource(createCorsConfigSource())
+//                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (swe, e) ->
@@ -55,13 +56,27 @@ public class WebSecurityConfig {
                 .pathMatchers(
                         routines()
                 ).permitAll()
-                .pathMatchers("/controller").hasRole("ADMIN")
+                .pathMatchers("/users").hasRole("ADMIN")
                 .anyExchange().authenticated()
                 .and()
                 .build();
     }
 
+//    public CorsConfigurationSource createCorsConfigSource() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.addAllowedOrigin("http://localhost:3000");
+//        config.addAllowedMethod("OPTIONS");
+//        config.addAllowedMethod("GET");
+//        config.addAllowedMethod("PUT");
+//        config.addAllowedMethod("POST");
+//        config.addAllowedMethod("DELETE");
+//
+//        source.registerCorsConfiguration("/**", config);
+//        return source;
+//    }
+
     private String[] routines() {
-        return new String[]{"/", "/_nuxt/**", "/auth", "/auth/login", "/favicon.ico", "/__webpack_hmr/**"};
+        return new String[]{"/", "/_nuxt/**", "/api/sessionUser", "/api/login", "/favicon.ico", "/__webpack_hmr/**"};
     }
 }

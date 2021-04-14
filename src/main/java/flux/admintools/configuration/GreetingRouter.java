@@ -25,7 +25,7 @@ public class GreetingRouter {
                         GET("/"),
                         greetingHandler::index
                 ).andRoute(
-                        GET("/auth/login"),
+                        GET("/login"),
                         greetingHandler::authorization
                 ).andRoute(
                         GET("/auth"), req ->
