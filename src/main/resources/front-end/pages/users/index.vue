@@ -22,13 +22,11 @@ export default {
   }),
   computed: {
     users() {
-      console.log(this.$store.getters)
       return this.$store.getters['users/users']
     }
   },
   methods: {
     openUser(user) {
-      console.log(user)
       this.$router.push('/users/' + user.id)
     }
   }

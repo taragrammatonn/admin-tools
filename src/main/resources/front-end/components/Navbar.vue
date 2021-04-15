@@ -38,7 +38,7 @@
 export default {
   computed: {
     hasToken() {
-      return this.$store.getters.hasToken
+      return this.$auth.loggedIn
     }
   },
   methods: {

@@ -3,7 +3,7 @@
     <div v-if="$route.query.message" class="alert alert-danger mb-3">
       {{ $route.query.message }}
     </div>
-    <form class="mt-8 space-y-6" id="loginForm" @submit.prevent="login">
+    <form class="mt-8 space-y-6" id="loginForm" @submit.prevent="authorization">
 
       <div>
         <img class="mx-auto h-40 w-auto" src="https://medialeaks.ru/wp-content/uploads/2020/01/mem-600x338.jpg" alt="Workflow">
@@ -13,10 +13,10 @@
 
       <div class="rounded-md shadow-sm -space-y-px">
         <div class="form-group">
-          <input type="text" class="form-control" v-model="user.username">
+          <input type="text" class="form-control" v-model="login.user">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" v-model="user.password">
+          <input type="password" class="form-control" v-model="login.password">
         </div>
       </div>
 
@@ -60,8 +60,8 @@ export default {
   layout: 'empty',
   data() {
     return {
-      user: {
-        username: '',
+      login: {
+        user: '',
         password: ''
       },
       error: null,
@@ -69,10 +69,10 @@ export default {
   },
 
   methods: {
-    login() {
-      this.$store.dispatch('login', {data: this.user})
+    authorization() {
+      this.$store.dispatch('authorization', {data: this.login})
         .then(() => {
-          console.log(this)
+          console.log(this.$auth.loggedIn)
           if (this.$auth.loggedIn) {
 
           }
