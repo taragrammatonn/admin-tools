@@ -20,7 +20,7 @@ public class UserService implements ReactiveUserDetailsService {
     }
 
     public Flux<User> list() {
-        return userRepo.getAllUsers();
+        return userRepo.findAll();
     }
 
     public Mono<User> addOne(User user) {
@@ -29,7 +29,7 @@ public class UserService implements ReactiveUserDetailsService {
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        return userRepo.findByUserName(username)
+        return userRepo.findByUsername(username)
                 .cast(UserDetails.class);
     }
 }

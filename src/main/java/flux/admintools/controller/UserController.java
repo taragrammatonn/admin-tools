@@ -1,6 +1,5 @@
 package flux.admintools.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import flux.admintools.domen.users.User;
 import flux.admintools.service.UserService;
 import lombok.SneakyThrows;
@@ -11,28 +10,19 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Base64;
-import java.util.Comparator;
 
 @RestController
 public class UserController {
 
-    private final ObjectMapper objectMapper;
     private final UserService userService;
 
-    public UserController(UserService userService, ObjectMapper objectMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.objectMapper = objectMapper;
     }
 
-    @GetMapping("/users")
-    public Flux<User> list(
-            @RequestParam(defaultValue = "0") Long start,
-            @RequestParam(defaultValue = "3") Long count
-    ) {
-
-        return Flux
-                .from(userService.list())
-                .sort(Comparator.comparing(User::getId) );
+    @GetMapping(value = "/users")
+    public Flux<User> list() {
+        return Flux.from(userService.list());
     }
 
     @PostMapping
