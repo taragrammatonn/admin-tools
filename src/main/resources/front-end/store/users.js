@@ -1,10 +1,15 @@
 export const state = () => ({
-  users: []
+  users: [],
+  user: null
 })
 
 export const mutations = {
-  setUsers(state, users) {
-    state.users = users
+  setUsers(thisState, users) {
+    thisState.users = users
+  },
+
+  setUser(thisState, user) {
+    thisState.user = user
   }
 }
 
@@ -14,9 +19,18 @@ export const actions = {
       .then(response => {
         commit('setUsers', response)
     })
+  },
+
+  async getUser({commit}, id) {
+    await this.$axios.$get('/user/'+ id)
+      .then(response => {
+        console.log(response)
+        commit('setUser', response)
+      })
   }
 }
 
 export const getters = {
-  users: s => s.users
+  users: s => s.users,
+  user: s => s.user
 }

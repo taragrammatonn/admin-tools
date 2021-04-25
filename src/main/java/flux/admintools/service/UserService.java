@@ -27,6 +27,10 @@ public class UserService implements ReactiveUserDetailsService {
         return userRepo.save(user);
     }
 
+    public Mono<User> getOne(Long id) {
+        return userRepo.findById(id);
+    }
+
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return userRepo.findByUsername(username)

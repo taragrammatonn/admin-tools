@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  middleware: ['auth-user'],
   async fetch({store}) {
     if (store.getters['users/users'].length === 0) {
       await store.dispatch('users/fetch')

@@ -14,6 +14,7 @@
     <link rel="preload" th:href="@{http://localhost:3000/_nuxt/pages/about.js}" as="script">
     <link rel="preload" th:href="@{http://localhost:3000/_nuxt/pages/login.js}" as="script">
     <link rel="preload" th:href="@{http://localhost:3000/_nuxt/pages/users/index.js}" as="script">
+    <link rel="preload" th:href="@{http://localhost:3000/_nuxt/pages/users/_id.js}" as="script">
 </head>
 <body>
 <div id="__nuxt">
@@ -113,7 +114,7 @@
     }</style>
 
     <script>window.addEventListener("error", function () {
-        var e = document.getElementById("nuxt-loading");
+        let e = document.getElementById("nuxt-loading");
         e && (e.className += " error")
     })</script>
     <div id="nuxt-loading" aria-live="polite" role="status">
@@ -144,6 +145,7 @@
 <script th:src="@{http://localhost:3000/_nuxt/pages/about.js}"></script>
 <script th:src="@{http://localhost:3000/_nuxt/pages/login.js}"></script>
 <script th:src="@{http://localhost:3000/_nuxt/pages/users/index.js}"></script>
+<script th:src="@{http://localhost:3000/_nuxt/pages/users/_id.js}"></script>
 
 </body>
 </html>

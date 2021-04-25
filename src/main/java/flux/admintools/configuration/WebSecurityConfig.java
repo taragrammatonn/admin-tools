@@ -1,5 +1,6 @@
 package flux.admintools.configuration;
 
+import flux.admintools.domen.conf.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -12,12 +13,15 @@ import reactor.core.publisher.Mono;
 @EnableReactiveMethodSecurity
 public class WebSecurityConfig {
 
+    private final Configuration configuration;
+
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
 
-    public WebSecurityConfig(AuthenticationManager authenticationManager, SecurityContextRepository securityContextRepository) {
+    public WebSecurityConfig(AuthenticationManager authenticationManager, SecurityContextRepository securityContextRepository, Configuration configuration) {
         this.authenticationManager = authenticationManager;
         this.securityContextRepository = securityContextRepository;
+        this.configuration = configuration;
     }
 
     @Bean
@@ -53,6 +57,7 @@ public class WebSecurityConfig {
     }
 
     private String[] routines() {
-        return new String[]{"/", "/_nuxt/**", "/api/sessionUser", "/users", "/sessionUser", "/auth/login", "/favicon.ico", "/__webpack_hmr/**"};
+        return configuration.getProfile().equals("dev") ? new String[]{"/**"} :
+                new String[]{"/", "/login", "/favicon.ico"};
     }
 }

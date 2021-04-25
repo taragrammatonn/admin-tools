@@ -1,22 +1,28 @@
 <template>
   <section>
-    <h1>{{user.name}}</h1>
+    <h1>{{user.fullName}}</h1>
 
     <hr>
 
-    <h3>{{user.email}}</h3>
+    <h3>{{user.userGroup}}</h3>
   </section>
 </template>
 
 <script>
 export default {
+  middleware: ['auth-user'],
   validate({params}) {
     return /^\d+$/.test(params.id)
   },
-  async asyncData({$axios, params}) {
-    const user = await $axios.$get('https://jsonplaceholder.typicode.com/users/' + params.id)
-    return {user}
-  }
+  async fetch({store, params}) {
+    store.dispatch('users/getUser', params.id)
+  },
+  computed: {
+    user() {
+      console.log(this.$store.getters['users/user'])
+      return this.$store.getters['users/user']
+    }
+  },
 }
 </script>
 

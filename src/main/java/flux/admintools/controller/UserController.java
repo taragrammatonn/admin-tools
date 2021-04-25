@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping("/users")
     public Flux<User> list() {
         return Flux.from(userService.list());
     }
@@ -30,6 +30,10 @@ public class UserController {
         return userService.addOne(user);
     }
 
+    @GetMapping("/user/{id}")
+    public Mono<User> getById(@PathVariable Long id) {
+        return userService.getOne(id);
+    }
 
     @SneakyThrows
     @GetMapping("/sessionUser")
