@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class UserService implements ReactiveUserDetailsService {
+public class UserService implements ReactiveUserDetailsService, UserUnicastService {
+
+    private EmitterProcessor<User> processor = EmitterProcessor.create();
 
     private final UserRepo userRepo;
 
@@ -35,5 +38,15 @@ public class UserService implements ReactiveUserDetailsService {
     public Mono<UserDetails> findByUsername(String username) {
         return userRepo.findByUsername(username)
                 .cast(UserDetails.class);
+    }
+
+    @Override
+    public void onNext(User next) {
+        processor.onNext(next);
+    }
+
+    @Override
+    public Flux<User> getMessages() {
+        return processor.publish().autoConnect();
     }
 }

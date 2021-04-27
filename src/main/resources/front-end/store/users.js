@@ -4,12 +4,16 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setUsers(thisState, users) {
-    thisState.users = users
+  setUsers(state, users) {
+    state.users = users
   },
 
-  setUser(thisState, user) {
-    thisState.user = user
+  setUser(state, user) {
+    state.user = user
+  },
+
+  addUser(state, user) {
+    state.users.push(user)
   }
 }
 
@@ -27,6 +31,11 @@ export const actions = {
         console.log(response)
         commit('setUser', response)
       })
+  },
+
+  pushUser({commit}, user) {
+    console.log(user)
+    commit('addUser', user)
   }
 }
 

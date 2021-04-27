@@ -58,4 +58,12 @@ public class JWTUtil {
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
+
+    public String decodeToken(String token) {
+        Base64.Decoder decoder = Base64.getDecoder();
+        String[] chunks = token.substring(7).split("\\.");
+        String payload = new String(decoder.decode(chunks[1]));
+
+        return payload.replace("sub", "user");
+    }
 }

@@ -1,27 +1,35 @@
 package flux.admintools.domen.conf;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Data
+@Getter
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Configuration {
+
+    public static final String DB_HOST = "localhost";
 
     @Value("${spring.profiles.active}")
     String profile;
 
     @Value("${springbootwebfluxjjwt.password.encoder.secret}")
-    private String secret;
+    String secret;
 
     @Value("${springbootwebfluxjjwt.password.encoder.iteration}")
-    private Integer iteration;
+    Integer iteration;
 
     @Value("${springbootwebfluxjjwt.password.encoder.keylength}")
-    private Integer keylength;
+    Integer keylength;
+
+    @Value("${spring.r2dbc.username}")
+    String dbUserName;
+
+    @Value("${spring.r2dbc.password}")
+    String dbPassword;
 
 
     public Boolean isDevMode() {

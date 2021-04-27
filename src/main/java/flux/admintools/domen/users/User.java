@@ -1,12 +1,14 @@
 package flux.admintools.domen.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,9 +24,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements UserDetails {
 
-    @Id
-    Long id;
-    Long chatId;
+    @Id @JsonView(Views.GeneralUserInfo.class) Long id;
+    @JsonView(Views.GeneralUserInfo.class) Long chatId;
     String fName;
     String lName;
     String userNickName;
@@ -40,10 +41,19 @@ public class User implements UserDetails {
     @JsonIgnore
     UserRole role;
 
+    @Transient
+    Boolean isDeleted = Boolean.FALSE;
+
+    public User(Long id,  Boolean isDeleted) {
+        this.id = id;
+        this.isDeleted = isDeleted;
+    }
+
     public User(String userNickName) {
         this.userNickName = userNickName;
     }
 
+    @JsonView(Views.GeneralUserInfo.class)
     public String getFullName() {
         if (getUserNickName() != null) {
             return (getFName() != null ? getFName() : "") + " \"" + getUserNickName() + "\" " + (getLName() != null ? getLName() : "");
