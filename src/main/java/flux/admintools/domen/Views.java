@@ -1,4 +1,4 @@
-package flux.admintools.domen.users;
+package flux.admintools.domen;
 
 public final class Views {
     public interface GeneralUserInfo {}

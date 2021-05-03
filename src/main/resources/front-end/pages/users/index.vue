@@ -1,19 +1,18 @@
 <template>
   <section>
-    <h1>{{pageTitle}}</h1>
-    <p>Count: {{count}}</p>
+    <h1>{{ pageTitle }}</h1>
+    <p>Count: {{ count }}</p>
     <ul>
       <li v-for="user of users" :key="user.id">
-        <a href="#" @click.prevent="openUser(user)">{{user.fullName}}</a>
+        <a href="#" @click.prevent="openUser(user)">{{ user.fullName }}</a>
       </li>
     </ul>
   </section>
 </template>
 
 <script>
-import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/observable/interval'
-import { webSocket } from 'rxjs/webSocket'
+import {webSocket} from 'rxjs/webSocket'
 
 export default {
   middleware: ['auth-user'],
@@ -40,15 +39,13 @@ export default {
   created() {
     const subject = webSocket('ws://localhost:8080/push')
 
-    subject.next({message: 'message'}) // <- ping first message
-    subject.subscribe(message => {       // <- listen messages from server
-      this.$store.dispatch('users/pushUser', message)
+    subject.next({message: 'Connected'})
+    subject.subscribe(user => {
+      console.log(user)
+      !user.isDeleted ?
+        this.$store.dispatch('users/pushUser', user) :
+        this.$store.dispatch('users/removeUser', user)
     });
-
-    const obs = Observable.interval(1000)
-    obs.subscribe(
-      (value => this.count = value)
-    )
   }
 }
 </script>

@@ -2,6 +2,7 @@ package flux.admintools.domen.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import flux.admintools.domen.Views;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,7 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id @JsonView(Views.GeneralUserInfo.class) Long id;
-    @JsonView(Views.GeneralUserInfo.class) Long chatId;
+    Long chatId;
     String fName;
     String lName;
     String userNickName;
@@ -36,6 +37,7 @@ public class User implements UserDetails {
     Boolean isDefined;
 
     String username;
+    @JsonIgnore
     String password;
 
     @JsonIgnore
@@ -55,33 +57,39 @@ public class User implements UserDetails {
 
     @JsonView(Views.GeneralUserInfo.class)
     public String getFullName() {
-        if (getUserNickName() != null) {
+        if (getUserNickName() != null)
             return (getFName() != null ? getFName() : "") + " \"" + getUserNickName() + "\" " + (getLName() != null ? getLName() : "");
-        }
+        else if (getIsDeleted())
+            return "Is Deleted";
         return (!getFName().isEmpty() ? getFName() : "") + " " + (!getLName().isEmpty() ?  getLName() : "");
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

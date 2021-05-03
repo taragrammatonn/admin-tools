@@ -14,6 +14,11 @@ export const mutations = {
 
   addUser(state, user) {
     state.users.push(user)
+  },
+
+  removeUser(state, deletedUser) {
+    console.log(deletedUser)
+    state.users.splice(state.users.findIndex(user => user.id === deletedUser.id), 1)
   }
 }
 
@@ -28,14 +33,16 @@ export const actions = {
   async getUser({commit}, id) {
     await this.$axios.$get('/user/'+ id)
       .then(response => {
-        console.log(response)
         commit('setUser', response)
       })
   },
 
   pushUser({commit}, user) {
-    console.log(user)
     commit('addUser', user)
+  },
+
+  removeUser({commit}, user) {
+    commit('removeUser', user)
   }
 }
 

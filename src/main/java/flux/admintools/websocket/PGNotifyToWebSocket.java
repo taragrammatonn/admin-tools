@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import flux.admintools.domen.conf.Configuration;
 import flux.admintools.domen.users.User;
-import flux.admintools.repo.UserRepo;
-import flux.admintools.service.UserUnicastService;
+import flux.admintools.service.UserService;
 import io.reactiverse.pgclient.PgClient;
 import io.reactiverse.pgclient.PgConnection;
 import io.reactiverse.pgclient.PgPool;
@@ -20,15 +19,13 @@ import reactor.core.publisher.Mono;
 public class PGNotifyToWebSocket {
 
     private final Configuration configuration;
-    private final UserUnicastService userUnicastService;
+    private final UserService userService;
     private final ObjectMapper objectMapper;
-    private final UserRepo userRepo;
 
-    public PGNotifyToWebSocket(Configuration configuration, UserUnicastService userUnicastService, ObjectMapper objectMapper, UserRepo userRepo) {
+    public PGNotifyToWebSocket(Configuration configuration, UserService userService, ObjectMapper objectMapper) {
         this.configuration = configuration;
-        this.userUnicastService = userUnicastService;
+        this.userService = userService;
         this.objectMapper = objectMapper;
-        this.userRepo = userRepo;
     }
 
     @Bean
@@ -38,23 +35,21 @@ public class PGNotifyToWebSocket {
             if (asyncResult.succeeded()) {
                 PgConnection connection = asyncResult.result();
                 connection.notificationHandler(notification -> {
-                    Mono<User> user;
                     try {
-                        user = userRepo.findById(objectMapper.readTree(notification.getPayload()).get("id").asLong());
+                        var entityId = objectMapper.readTree(notification.getPayload()).get("id").asLong();
+                        Mono<User> user = userService.getOne(entityId);
 
-//                        switch (DBAction.valueOf(objectMapper.readTree(notification.getPayload()).get("action").asText())) {
-//                            case INSERT, UPDATE -> userUnicastService.onNext(user.block());
-//                            case DELETE -> {
-//                                user.block().setIsDeleted(Boolean.TRUE);
-//                                userUnicastService.onNext(user.block());
-//                            }
-//                        }
-                        userUnicastService.onNext(user.block());
+                        var dbAction = DBAction.valueOf(objectMapper.readTree(notification.getPayload()).get("action").asText());
+                        var action = !dbAction.equals(DBAction.INSERT) && !dbAction.equals(DBAction.UPDATE);
+
+                        if (action) user = Mono.just(new User(entityId, Boolean.TRUE));
+
+                        userService.onNext(user.block());
                     } catch (JsonProcessingException ex) {
                         log.error("Cannot unparsed data!", ex);
                     }
                 });
-                connection.query("LISTEN my_trigger_name", ar -> log.info("Subscribed to channel"));
+                connection.query("LISTEN " + TriggerChanel.user_action, ar -> log.info("Subscribed to channel"));
             }
         });
         return client;

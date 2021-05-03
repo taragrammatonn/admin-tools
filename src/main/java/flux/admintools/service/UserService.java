@@ -6,21 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.Sinks;
 
 @Service
-public class UserService implements ReactiveUserDetailsService, UserUnicastService {
+public class UserService implements ReactiveUserDetailsService, UserSinksService {
 
-    private EmitterProcessor<User> processor = EmitterProcessor.create();
-
-    private final UserRepo userRepo;
-
-    @Autowired
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
+    @Autowired private Flux<User> users;
+    @Autowired private Sinks.Many<User> userPublisher;
+    @Autowired private UserRepo userRepo;
 
     public Flux<User> list() {
         return userRepo.findAll();
@@ -42,11 +37,12 @@ public class UserService implements ReactiveUserDetailsService, UserUnicastServi
 
     @Override
     public void onNext(User next) {
-        processor.onNext(next);
+        userPublisher.tryEmitNext(next)
+                .orThrow();
     }
 
     @Override
-    public Flux<User> getMessages() {
-        return processor.publish().autoConnect();
+    public Flux<User> getUsers() {
+        return users.publish().autoConnect();
     }
 }
