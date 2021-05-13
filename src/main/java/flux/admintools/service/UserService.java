@@ -1,7 +1,8 @@
 package flux.admintools.service;
 
 import flux.admintools.domen.users.User;
-import flux.admintools.repo.UserRepo;
+import flux.admintools.service.repo.UserRepo;
+import flux.admintools.service.repo.UserSinksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;

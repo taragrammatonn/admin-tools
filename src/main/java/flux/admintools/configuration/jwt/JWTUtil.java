@@ -1,4 +1,4 @@
-package flux.admintools.configuration;
+package flux.admintools.configuration.jwt;
 
 import flux.admintools.domen.users.User;
 import io.jsonwebtoken.Claims;

@@ -1,4 +1,4 @@
-package flux.admintools.repo;
+package flux.admintools.service.repo;
 
 import flux.admintools.domen.Message;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

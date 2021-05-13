@@ -1,5 +1,6 @@
-package flux.admintools.configuration;
+package flux.admintools.configuration.security;
 
+import flux.admintools.configuration.AuthenticationManager;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;

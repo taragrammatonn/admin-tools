@@ -1,4 +1,4 @@
-package flux.admintools.service;
+package flux.admintools.service.repo;
 
 import flux.admintools.domen.users.User;
 import reactor.core.publisher.Flux;

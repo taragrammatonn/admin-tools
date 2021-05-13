@@ -1,4 +1,4 @@
-package flux.admintools.repo;
+package flux.admintools.service.repo;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import flux.admintools.domen.Views;

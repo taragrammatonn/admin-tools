@@ -3,6 +3,7 @@ package flux.admintools.domen.users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import flux.admintools.domen.Views;
+import flux.admintools.domen.history.UserAction;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +46,8 @@ public class User implements UserDetails {
 
     @Transient
     Boolean isDeleted = Boolean.FALSE;
+    @Transient
+    UserAction userAction;
 
     public User(Long id,  Boolean isDeleted) {
         this.id = id;

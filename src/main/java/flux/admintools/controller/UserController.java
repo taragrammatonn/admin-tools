@@ -1,7 +1,7 @@
 package flux.admintools.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import flux.admintools.configuration.JWTUtil;
+import flux.admintools.configuration.jwt.JWTUtil;
 import flux.admintools.domen.users.User;
 import flux.admintools.domen.Views;
 import flux.admintools.service.UserService;

@@ -1,8 +1,8 @@
 package flux.admintools.handlers;
 
 import com.devglan.springwebfluxjwt.dto.ApiResponse;
-import flux.admintools.configuration.JWTUtil;
-import flux.admintools.configuration.PBKDF2Encoder;
+import flux.admintools.configuration.jwt.JWTUtil;
+import flux.admintools.configuration.security.PBKDF2Encoder;
 import flux.admintools.domen.authorization.AuthRequest;
 import flux.admintools.domen.authorization.AuthResponse;
 import flux.admintools.domen.users.User;

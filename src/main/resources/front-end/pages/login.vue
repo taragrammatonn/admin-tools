@@ -72,7 +72,6 @@ export default {
     authorization() {
       this.$store.dispatch('authorization', {data: this.login})
         .then(() => {
-          console.log(this.$auth.loggedIn)
           if (this.$auth.loggedIn) {
 
           }

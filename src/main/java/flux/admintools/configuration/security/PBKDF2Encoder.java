@@ -1,4 +1,4 @@
-package flux.admintools.configuration;
+package flux.admintools.configuration.security;
 
 import flux.admintools.domen.conf.Configuration;
 import lombok.SneakyThrows;

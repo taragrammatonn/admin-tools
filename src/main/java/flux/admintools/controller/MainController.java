@@ -1,7 +1,7 @@
 package flux.admintools.controller;
 
-import flux.admintools.configuration.JWTUtil;
-import flux.admintools.configuration.PBKDF2Encoder;
+import flux.admintools.configuration.jwt.JWTUtil;
+import flux.admintools.configuration.security.PBKDF2Encoder;
 import flux.admintools.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

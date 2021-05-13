@@ -1,5 +1,6 @@
-package flux.admintools.configuration;
+package flux.admintools.configuration.security;
 
+import flux.admintools.configuration.AuthenticationManager;
 import flux.admintools.domen.conf.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
