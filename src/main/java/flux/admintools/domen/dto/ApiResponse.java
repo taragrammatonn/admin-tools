@@ -1,4 +1,4 @@
-package com.devglan.springwebfluxjwt.dto;
+package flux.admintools.domen.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

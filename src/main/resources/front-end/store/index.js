@@ -13,10 +13,6 @@ export const mutations = {
 
   setError(state, error) {
     state.error = error
-  },
-
-  getToken(state) {
-    return state.token
   }
 }
 
@@ -43,7 +39,13 @@ export const actions = {
     })
   },
 
-  logout({commit}) {
+  async logout({commit}, userName) {
+    console.log(userName)
+    await this.$auth.logout({
+      data: {
+        user: userName
+      }
+    });
     commit('clearToken')
   },
 }
@@ -51,5 +53,4 @@ export const actions = {
 export const getters = {
   hasToken: s => !!s.token,
   getError: s => s.error,
-  getToken: s => s.token
 }

@@ -80,7 +80,7 @@ export default {
         endpoints: {
           login: { url: '/auth/login', method: 'post', propertyName: 'token' },
           user: { url: '/sessionUser', method: 'get', propertyName: 'user'},
-          logout: { url: '/api/auth/logout', method: 'post' }
+          logout: { url: '/auth/logout', method: 'post', propertyName: 'username' }
         }
       }
     }

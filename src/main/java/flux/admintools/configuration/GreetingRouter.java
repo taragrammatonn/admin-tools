@@ -4,8 +4,9 @@ import flux.admintools.handlers.AuthHandler;
 import flux.admintools.handlers.GreetingHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 
 import java.net.URI;
 
@@ -23,18 +24,10 @@ public class GreetingRouter {
 
     @Bean
     public RouterFunction<ServerResponse> route(GreetingHandler greetingHandler) {
-        RequestPredicate hello =
-                GET("/hello")
-                        .and(RequestPredicates.accept(MediaType.TEXT_PLAIN));
-
         return RouterFunctions
-                .route(hello, greetingHandler::hello)
-                .andRoute(
+                .route(
                         GET("/"),
                         greetingHandler::index
-                ).andRoute(
-                        GET("/login"),
-                        greetingHandler::authorization
                 ).andRoute(
                         GET("/auth"), req ->
                                 ServerResponse.temporaryRedirect(URI.create("/auth/login"))
@@ -44,8 +37,11 @@ public class GreetingRouter {
     @Bean
     public RouterFunction<ServerResponse> authRoute() {
         return RouterFunctions
-                .route(POST("/auth/login").and(accept(APPLICATION_JSON)), authHandler::login);
-                // TODO
-                //.andRoute(POST("/auth/signup").and(accept(APPLICATION_JSON)), authHandler::signUp);
+                .route(
+                        POST("/auth/login").and(accept(APPLICATION_JSON)), authHandler::login
+                )
+                .andRoute(
+                        POST("/auth/logout").and(accept(APPLICATION_JSON)), authHandler::logout
+                );
     }
 }
