@@ -50,7 +50,7 @@ public class PGNotifyToWebSocket {
                     }
                 });
                 connection.query("LISTEN " + TriggerChanel.user_action, ar -> log.info("Subscribed to channel"));
-            }
+            } else log.error("PgPool subscriber was not able to connect to DB. Error: {}", asyncResult);
         });
         return client;
     }

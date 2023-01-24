@@ -12,7 +12,7 @@ primary key,
     logout_time timestamp
 );
 
-alter table user_history
+alter table activity_logs.user_history
 owner to postgres;
 
 create unique index if not exists user_history_id_uindex
